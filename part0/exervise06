@@ -1,0 +1,2 @@
+browser to server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_sp
+server to browser: {"message":"note created"}

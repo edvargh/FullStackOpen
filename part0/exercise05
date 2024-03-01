@@ -1,0 +1,11 @@
+browser to server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+server to browser: html file
+
+browser to server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server to browser: css file
+
+browser to server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server to browser: javascript file
+
+browser to server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server to browser: json file

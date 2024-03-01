@@ -1,0 +1,14 @@
+browser to server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+server to browser: Accept
+
+browser to server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+server to browser: html file
+
+browser to server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server to browser: css file
+
+browser to server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server to browser: javascript file
+
+browser to server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server to browser: json file
