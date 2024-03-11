@@ -1,13 +1,27 @@
+import React from 'react';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 import Filter from './Filter';
 import PersonForm from './PersonForm';
-import Persons from './Persons'
-import { useState } from 'react';
+import Persons from './Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]); 
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setFilter] = useState('');
+
+  const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3004/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }
+  
+  useEffect(hook, [])
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
