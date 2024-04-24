@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Filter from './Filter';
 import PersonForm from './PersonForm';
 import Persons from './Persons';
+import personService from './services/persons';
+
 
 const App = () => {
   const [persons, setPersons] = useState([]); 
@@ -12,15 +14,13 @@ const App = () => {
   const [newFilter, setFilter] = useState('');
 
   const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3004/persons')
+    personService
+      .getAll()
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }
-  
+
   useEffect(hook, [])
 
   const handleNameChange = (event) => {
@@ -46,9 +46,29 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      setPersons(persons.concat(newPerson));
-      setNewName('');
-      setNewNumber('');
+      
+
+      personService
+      .create(newPerson)
+      .then(response => {
+        console.log(response)
+        setPersons(persons.concat(newPerson));
+        setNewName('');
+        setNewNumber('');
+      })
+    }
+  };
+
+  const deletePerson = (id) => {
+    if (window.confirm(`Are you sure you want to delete this entry?`)) {
+      personService.remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id));
+        })
+        .catch(error => {
+          console.error('Error deleting person:', error);
+          alert('Failed to delete person');
+        });
     }
   };
 
@@ -56,22 +76,22 @@ const App = () => {
     ? persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
     : persons;
 
-  return (
-    <div>
-      <h2>Phonebook</h2>
-      <Filter value={newFilter} onChange={handleFilterChange} />
-      <h2>Add a new</h2>
-      <PersonForm 
-        addPerson={addPerson} 
-        newName={newName} 
-        handleNameChange={handleNameChange} 
-        newNumber={newNumber} 
-        handleNumberChange={handleNumberChange} 
-      />
-      <h2>Numbers</h2>
-      <Persons persons={personsToShow} />
-    </div>
-  );
+    return (
+      <div>
+        <h2>Phonebook</h2>
+        <Filter value={newFilter} onChange={handleFilterChange} />
+        <h2>Add a new</h2>
+        <PersonForm 
+          addPerson={addPerson}
+          newName={newName}
+          handleNameChange={handleNameChange}
+          newNumber={newNumber}
+          handleNumberChange={handleNumberChange}
+        />
+        <h2>Numbers</h2>
+        <Persons persons={personsToShow} onDelete={deletePerson} />
+      </div>
+    );
 };
 
 export default App;
